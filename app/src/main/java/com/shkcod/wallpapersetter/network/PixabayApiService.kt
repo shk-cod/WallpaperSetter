@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 private const val API_KEY = "33106230-b104905cd7ff74ed17e2229af"
-private const val BASE_URL = "https://pixabay.com/api/?key=$API_KEY"
+private const val BASE_URL = "https://pixabay.com/api/"
 
 private val moshi = Moshi.Builder()
     .add(KotlinJsonAdapterFactory())
@@ -20,11 +20,12 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface PixabayApiService {
-    @GET("?per_page=1&orientation=vertical")
-    suspend fun getImage(@Query("category") category: String): PixabayImage
 
-    @GET("orientation=vertical")
-    suspend fun getImages(@Query("category") category: String): List<PixabayImage>
+//    @GET("orientation=vertical&per_page=200")
+//    suspend fun getImages(@Query(value = "category") category: String): List<PixabayImage>
+
+    @GET("?key=$API_KEY&orientation=vertical&per_page=200")
+    suspend fun getImages(@Query("category") category: String): PixabayImages
 }
 
 object PixabayApi {

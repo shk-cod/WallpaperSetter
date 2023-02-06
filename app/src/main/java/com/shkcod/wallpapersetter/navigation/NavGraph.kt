@@ -2,9 +2,12 @@ package com.shkcod.wallpapersetter.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navArgument
 import com.shkcod.wallpapersetter.AnimatedSplashScreen
+import com.shkcod.wallpapersetter.CategoryImagesScreen
 import com.shkcod.wallpapersetter.HomeScreen
 
 @Composable
@@ -18,7 +21,17 @@ fun SetupNavGraph(navController: NavHostController) {
         }
 
         composable(route = Screen.Home.route) {
-            HomeScreen()
+            HomeScreen(navController)
+        }
+
+        composable(
+            route = "${Screen.CategoryImages.route}/{category}",
+            arguments = listOf(navArgument("category") { type = NavType.StringType })
+        ) {
+            CategoryImagesScreen(
+                category = it.arguments!!.getString("category") as String,
+                navController = navController
+            )
         }
     }
 }

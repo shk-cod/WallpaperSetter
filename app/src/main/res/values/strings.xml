@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">WallpaperSetter</string>
+    <string name="category_animals">Animals</string>
+    <string name="category_backgrounds">Backgrounds</string>
+    <string name="category_buildings">Buildings</string>
+    <string name="category_food">Food</string>
+    <string name="category_nature">Nature</string>
+    <string name="category_places">Places</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_travel">Travel</string>
 </resources>
