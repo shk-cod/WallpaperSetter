@@ -20,10 +20,6 @@ private val retrofit = Retrofit.Builder()
     .build()
 
 interface PixabayApiService {
-
-//    @GET("orientation=vertical&per_page=200")
-//    suspend fun getImages(@Query(value = "category") category: String): List<PixabayImage>
-
     @GET("?key=$API_KEY&orientation=vertical&per_page=200")
     suspend fun getImages(@Query("category") category: String): PixabayImages
 }

@@ -1,8 +1,9 @@
-package com.shkcod.wallpapersetter
+package com.shkcod.wallpapersetter.ui.screens.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.lifecycle.ViewModel
+import com.shkcod.wallpapersetter.R
 
 class HomeScreenViewModel: ViewModel() {
 

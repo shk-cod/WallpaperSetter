@@ -6,42 +6,35 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.shkcod.wallpapersetter.navigation.Screen
+import com.shkcod.wallpapersetter.ui.screens.home.HomeScreenViewModel
 
 @Composable
-fun CategoryImagesScreen(
+fun HomeScreen(
     navController: NavController,
-    category: String,
-    viewModel: CategoryImagesViewModel = viewModel(factory = CategoryImagesViewModelFactory(category))
+    viewModel: HomeScreenViewModel = viewModel()
 ) {
-    val error by viewModel.errorFlow.collectAsState(initial = "")
-
     Surface {
-        ImagesGrid(navController, viewModel)
-        error?.let { Text(it) }
+        CategoriesGrid(navController, viewModel)
     }
 }
 
 @Composable
-fun ImagesGrid(
+fun CategoriesGrid(
     navController: NavController,
-    viewModel: CategoryImagesViewModel
+    viewModel: HomeScreenViewModel
 ) {
-    val list by viewModel.imagesFlow.collectAsState(initial = listOf())
-
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(vertical = 16.dp),
@@ -50,10 +43,12 @@ fun ImagesGrid(
         modifier = Modifier
             .padding(all = 8.dp)
     ) {
-        items(list) { item ->
-            ImageCard(
+        items(viewModel.categoriesList) { item ->
+            CategoryCard(
                 navController,
-                item.webformatURL
+                item.drawable,
+                item.text,
+                item.category.value
             )
         }
     }
@@ -61,27 +56,30 @@ fun ImagesGrid(
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ImageCard(
+fun CategoryCard(
     navController: NavController,
-    url: String,
+    drawable: Int,
+    text: Int,
+    category: String
 ) {
-    val imgUri = url.toUri().buildUpon().scheme("https").build()
-
     Box(
         modifier = Modifier
-            .height(192.dp)
-            .padding(all = 8.dp)
-            .clickable { },
-        contentAlignment = Alignment.Center
+            .clickable { navController.navigate("${Screen.CategoryImages.route}/$category") }
     ) {
-        GlideImage(
-            model = url,
-            contentDescription = "",
-            modifier = Modifier.clip(RoundedCornerShape(8.dp))
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier
+                .width(192.dp)
+                .padding(all = 8.dp)
         ) {
-            it
-                .load(imgUri)
-                .error(R.drawable.ic_broken_image)
+            GlideImage(
+                model = drawable,
+                contentDescription = "",
+                modifier = Modifier.clip(RoundedCornerShape(8.dp))
+            ) {
+                it.error(R.drawable.ic_broken_image)
+            }
+            Text(stringResource(text))
         }
     }
 }

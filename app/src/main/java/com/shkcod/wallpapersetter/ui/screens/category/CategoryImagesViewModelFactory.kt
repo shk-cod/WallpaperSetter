@@ -1,4 +1,4 @@
-package com.shkcod.wallpapersetter
+package com.shkcod.wallpapersetter.ui.screens.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

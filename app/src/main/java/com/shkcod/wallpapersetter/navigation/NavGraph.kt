@@ -7,8 +7,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.shkcod.wallpapersetter.AnimatedSplashScreen
-import com.shkcod.wallpapersetter.CategoryImagesScreen
 import com.shkcod.wallpapersetter.HomeScreen
+import com.shkcod.wallpapersetter.ui.screens.category.CategoryImagesScreen
+import com.shkcod.wallpapersetter.ui.screens.wallpaper.WallpaperScreen
 
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
@@ -32,6 +33,13 @@ fun SetupNavGraph(navController: NavHostController) {
                 category = it.arguments!!.getString("category") as String,
                 navController = navController
             )
+        }
+
+        composable(
+            route = "${Screen.Wallpaper.route}/{url}",
+            arguments = listOf(navArgument("url") { type = NavType.StringType })
+        ) {
+            WallpaperScreen(it.arguments!!.getString("url") as String)
         }
     }
 }
