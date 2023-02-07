@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -23,7 +22,6 @@ import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.shkcod.wallpapersetter.R
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -31,7 +29,6 @@ fun WallpaperScreen(
     url: String
 ) {
     val context = LocalContext.current
-    val composableScope = rememberCoroutineScope()
 
     Box {
         GlideImage(
@@ -47,9 +44,7 @@ fun WallpaperScreen(
 
         Button(
             onClick = {
-                composableScope.launch {
                     setWallpaper(context, url)
-                }
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)

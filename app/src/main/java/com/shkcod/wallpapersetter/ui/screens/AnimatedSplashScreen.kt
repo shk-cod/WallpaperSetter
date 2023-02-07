@@ -1,4 +1,4 @@
-package com.shkcod.wallpapersetter
+package com.shkcod.wallpapersetter.ui.screens
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateFloatAsState
@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.shkcod.wallpapersetter.R
 import com.shkcod.wallpapersetter.navigation.Screen
 import com.shkcod.wallpapersetter.ui.theme.WallpaperSetterTheme
 import kotlinx.coroutines.delay

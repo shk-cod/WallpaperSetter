@@ -6,8 +6,8 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.shkcod.wallpapersetter.AnimatedSplashScreen
 import com.shkcod.wallpapersetter.HomeScreen
+import com.shkcod.wallpapersetter.ui.screens.AnimatedSplashScreen
 import com.shkcod.wallpapersetter.ui.screens.category.CategoryImagesScreen
 import com.shkcod.wallpapersetter.ui.screens.wallpaper.WallpaperScreen
 

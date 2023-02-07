@@ -2,6 +2,7 @@ package com.shkcod.wallpapersetter.network
 
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.GET
@@ -21,7 +22,7 @@ private val retrofit = Retrofit.Builder()
 
 interface PixabayApiService {
     @GET("?key=$API_KEY&orientation=vertical&per_page=200")
-    suspend fun getImages(@Query("category") category: String): PixabayImages
+    suspend fun getImages(@Query("category") category: String): Response<PixabayImages>
 }
 
 object PixabayApi {

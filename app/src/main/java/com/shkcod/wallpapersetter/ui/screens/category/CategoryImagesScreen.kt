@@ -1,5 +1,6 @@
 package com.shkcod.wallpapersetter.ui.screens.category
 
+import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
@@ -8,6 +9,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -31,20 +33,21 @@ fun CategoryImagesScreen(
     category: String,
     viewModel: CategoryImagesViewModel = viewModel(factory = CategoryImagesViewModelFactory(category))
 ) {
-    val error by viewModel.errorFlow.collectAsState(initial = null)
+//    val error by viewModel.errorFlow.collectAsStateWithLifecycle(initialValue = "null")
     val context = LocalContext.current
-    
-//    LaunchedEffect(key1 = true) {
-//        viewModel.errorFlow.collect { message ->
-//            Toast.makeText(
-//                context,
-//                message,
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-//    }
+
+    LaunchedEffect(key1= true) {
+        viewModel.errorFlow.collect { error ->
+            Toast.makeText(
+                context,
+                error,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+    }
 
     Surface {
+//        Text(error!!)
         ImagesGrid(navController, viewModel)
     }
 }

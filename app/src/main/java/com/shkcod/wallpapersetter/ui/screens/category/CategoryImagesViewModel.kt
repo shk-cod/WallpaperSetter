@@ -25,11 +25,11 @@ class CategoryImagesViewModel(
     val imagesFlow: SharedFlow<List<PixabayImage>>
         get() = _imagesFlow
 
-    private val _errorFlow = MutableSharedFlow<String?>(
+    private val _errorFlow = MutableSharedFlow<String>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_LATEST
     )
-    val errorFlow: SharedFlow<String?>
+    val errorFlow: SharedFlow<String>
         get() = _errorFlow
 
     init {
@@ -41,10 +41,22 @@ class CategoryImagesViewModel(
             apiHelper.getImages(category)
                 .flowOn(Dispatchers.IO)
                 .catch { error ->
-                    _errorFlow.tryEmit(error.message)
+                    if (error.message != null) {
+                        _errorFlow.tryEmit(error.message!!)
+                    }
+
                 }
-                .collect {
-                    _imagesFlow.tryEmit(it.hits)
+                .collect { response ->
+                    if (response.isSuccessful) {
+                        if (response.body() != null) {
+                            _imagesFlow.tryEmit(response.body()!!.hits)
+                        }
+
+                    } else {
+                        if (response.errorBody() != null) {
+                            _errorFlow.tryEmit(response.errorBody()!!.toString())
+                        }
+                    }
                 }
         }
     }
