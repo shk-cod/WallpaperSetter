@@ -1,5 +1,6 @@
 package com.shkcod.wallpapersetter.ui.screens.category
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,23 +8,26 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
+import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.shkcod.wallpapersetter.R
 import com.shkcod.wallpapersetter.navigation.Screen
+import com.shkcod.wallpapersetter.ui.theme.gridCellSize
+import com.shkcod.wallpapersetter.ui.theme.roundedCornerSize
+import com.shkcod.wallpapersetter.ui.theme.smallPadding
+import com.shkcod.wallpapersetter.ui.theme.splashIconSize
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -33,48 +37,68 @@ fun CategoryImagesScreen(
     category: String,
     viewModel: CategoryImagesViewModel = viewModel(factory = CategoryImagesViewModelFactory(category))
 ) {
-//    val error by viewModel.errorFlow.collectAsStateWithLifecycle(initialValue = "null")
     val context = LocalContext.current
+    var isError by rememberSaveable { mutableStateOf(false) }
 
-    LaunchedEffect(key1= true) {
+    LaunchedEffect(key1 = true) {
         viewModel.errorFlow.collect { error ->
             Toast.makeText(
                 context,
                 error,
                 Toast.LENGTH_SHORT
             ).show()
+            isError = true
         }
     }
 
     Surface {
-//        Text(error!!)
-        ImagesGrid(navController, viewModel)
+        ImagesGrid(navController, viewModel, isError)
     }
 }
 
 @Composable
 fun ImagesGrid(
     navController: NavController,
-    viewModel: CategoryImagesViewModel
+    viewModel: CategoryImagesViewModel,
+    isError: Boolean
 ) {
     val list by viewModel.imagesFlow.collectAsState(initial = listOf())
 
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
-        contentPadding = PaddingValues(vertical = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .padding(all = 8.dp)
+
+
+
+    Box(
+        modifier = Modifier.fillMaxSize()
     ) {
-        items(list) { item ->
-            ImageCard(
-                navController,
-                item.webformatURL,
-                item.largeImageURL
+        if (list.isEmpty() && !isError) {
+            LinearProgressIndicator(
+                modifier = Modifier.align(Alignment.Center)
+            )
+        } else if (isError) {
+            Icon(
+                painter = painterResource(R.drawable.ic_broken_image),
+                contentDescription = "",
+                modifier = Modifier
+                    .size(splashIconSize)
+                    .align(Alignment.Center)
             )
         }
+
+        LazyVerticalGrid(
+            columns = GridCells.Adaptive(gridCellSize),
+            contentPadding = PaddingValues(vertical = smallPadding),
+            verticalArrangement = Arrangement.spacedBy(smallPadding),
+        ) {
+            items(list) { item ->
+                ImageCard(
+                    navController,
+                    item.webformatURL,
+                    item.largeImageURL
+                )
+            }
+        }
     }
+
 }
 
 @OptIn(ExperimentalGlideComposeApi::class)
@@ -84,12 +108,9 @@ fun ImageCard(
     webformatUrl: String,
     largeImageUrl: String
 ) {
-    val imgUri = webformatUrl.toUri().buildUpon().scheme("https").build()
-
     Box(
         modifier = Modifier
-            .height(192.dp)
-            .padding(all = 8.dp)
+            .height(gridCellSize)
             .clickable
             {
                 val encodedUrl = URLEncoder.encode(largeImageUrl, StandardCharsets.UTF_8.toString())
@@ -100,11 +121,11 @@ fun ImageCard(
         GlideImage(
             model = webformatUrl,
             contentDescription = "",
-            modifier = Modifier.clip(RoundedCornerShape(8.dp))
+            modifier = Modifier.clip(RoundedCornerShape(roundedCornerSize))
         ) {
             it
-                .load(imgUri)
-                .placeholder(R.drawable.loading_animation)
+                .load(Uri.parse(webformatUrl))
+                .placeholder(R.drawable.loading_animation_large)
                 .error(R.drawable.ic_broken_image)
         }
     }

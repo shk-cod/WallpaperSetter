@@ -15,11 +15,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.shkcod.wallpapersetter.R
 import com.shkcod.wallpapersetter.navigation.Screen
 import com.shkcod.wallpapersetter.ui.theme.WallpaperSetterTheme
+import com.shkcod.wallpapersetter.ui.theme.splashIconSize
+import com.shkcod.wallpapersetter.ui.theme.splashIconSurfaceSize
+import com.shkcod.wallpapersetter.ui.theme.splashSpacerHeight
 import kotlinx.coroutines.delay
 
 @Composable
@@ -34,7 +36,7 @@ fun AnimatedSplashScreen(navController: NavHostController) {
 
     LaunchedEffect(key1= true) {
         startAnimation = true
-        delay(500)
+        delay(500L)
         navController.popBackStack()
         navController.navigate(Screen.Home.route)
     }
@@ -53,7 +55,7 @@ fun Splash(progress: Float) {
         ) {
             SplashIcon()
             Spacer(
-                modifier = Modifier.height(60.dp)
+                modifier = Modifier.height(splashSpacerHeight)
             )
             LinearProgressIndicator(progress)
         }
@@ -64,13 +66,13 @@ fun Splash(progress: Float) {
 fun SplashIcon() {
     Surface(
         modifier = Modifier
-            .size(160.dp)
+            .size(splashIconSurfaceSize)
             .clip(CircleShape),
         color = Color(0xFF35BD73)
     ) {
         Icon(
             painter = painterResource(R.drawable.ic_launcher_foreground),
-            modifier = Modifier.requiredSize(240.dp),
+            modifier = Modifier.requiredSize(splashIconSize),
             contentDescription = "Logo Icon",
             tint = Color.White
         )

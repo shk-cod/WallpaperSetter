@@ -48,7 +48,7 @@ fun WallpaperScreen(
             },
             modifier = Modifier
                 .align(Alignment.BottomCenter)
-                .padding(bottom = 8.dp)
+                .padding(bottom = 24.dp)
         ) {
             Text("Set wallpaper")
         }
@@ -60,6 +60,7 @@ fun setWallpaper(context: Context, url: String) {
     Glide.with(context)
         .asBitmap()
         .load(Uri.parse(url))
+        .timeout(1000)
         .into(object : CustomTarget<Bitmap>(){
             override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                 val wallpaperManager: WallpaperManager = WallpaperManager.getInstance(context)
