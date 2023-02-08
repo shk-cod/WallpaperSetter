@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class CategoryImagesViewModel(
-    val category: String
+    private val category: String
 ): ViewModel() {
 
     private val apiHelper = PixabayApiHelper(PixabayApi.retrofitService)
