@@ -25,10 +25,7 @@ import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.shkcod.wallpapersetter.R
 import com.shkcod.wallpapersetter.navigation.Screen
-import com.shkcod.wallpapersetter.ui.theme.gridCellSize
-import com.shkcod.wallpapersetter.ui.theme.roundedCornerSize
-import com.shkcod.wallpapersetter.ui.theme.smallPadding
-import com.shkcod.wallpapersetter.ui.theme.splashIconSize
+import com.shkcod.wallpapersetter.ui.theme.*
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
@@ -64,9 +61,6 @@ fun ImagesGrid(
     isError: Boolean
 ) {
     val list by viewModel.imagesFlow.collectAsState(initial = listOf())
-
-
-
 
     Box(
         modifier = Modifier.fillMaxSize()
