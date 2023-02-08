@@ -3,7 +3,7 @@ package com.shkcod.wallpapersetter.ui.screens.category
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shkcod.wallpapersetter.network.PixabayApi
-import com.shkcod.wallpapersetter.network.PixabayApiHelperImpl
+import com.shkcod.wallpapersetter.network.PixabayApiHelper
 import com.shkcod.wallpapersetter.network.PixabayImage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
@@ -16,7 +16,7 @@ import kotlinx.coroutines.launch
 class CategoryImagesViewModel(
     val category: String
 ): ViewModel() {
-    private val apiHelper = PixabayApiHelperImpl(PixabayApi.retrofitService)
+    private val apiHelper = PixabayApiHelper(PixabayApi.retrofitService)
 
     private val _imagesFlow = MutableSharedFlow<List<PixabayImage>>(
         replay = 1,
