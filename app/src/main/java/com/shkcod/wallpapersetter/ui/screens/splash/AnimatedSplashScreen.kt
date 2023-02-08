@@ -1,4 +1,4 @@
-package com.shkcod.wallpapersetter.ui.screens
+package com.shkcod.wallpapersetter.ui.screens.splash
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.animation.core.animateFloatAsState
@@ -15,8 +15,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.shkcod.wallpapersetter.R
+import androidx.navigation.compose.rememberNavController
 import com.shkcod.wallpapersetter.navigation.Screen
 import com.shkcod.wallpapersetter.ui.theme.WallpaperSetterTheme
 import com.shkcod.wallpapersetter.ui.theme.splashIconSize
@@ -25,7 +26,10 @@ import com.shkcod.wallpapersetter.ui.theme.splashSpacerHeight
 import kotlinx.coroutines.delay
 
 @Composable
-fun AnimatedSplashScreen(navController: NavHostController) {
+fun AnimatedSplashScreen(
+    navController: NavHostController,
+    viewModel: AnimatedSplashScreenViewModel = viewModel()
+) {
     var startAnimation by remember { mutableStateOf(false) }
     val progressAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
@@ -41,11 +45,14 @@ fun AnimatedSplashScreen(navController: NavHostController) {
         navController.navigate(Screen.Home.route)
     }
 
-    Splash(progressAnim.value)
+    Splash(viewModel, progressAnim.value)
 }
 
 @Composable
-fun Splash(progress: Float) {
+fun Splash(
+    viewModel: AnimatedSplashScreenViewModel,
+    progress: Float
+) {
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -53,7 +60,7 @@ fun Splash(progress: Float) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            SplashIcon()
+            SplashIcon(viewModel)
             Spacer(
                 modifier = Modifier.height(splashSpacerHeight)
             )
@@ -63,15 +70,17 @@ fun Splash(progress: Float) {
 }
 
 @Composable
-fun SplashIcon() {
+fun SplashIcon(
+    viewModel: AnimatedSplashScreenViewModel
+) {
     Surface(
         modifier = Modifier
             .size(splashIconSurfaceSize)
             .clip(CircleShape),
-        color = Color(0xFF35BD73)
+        color = Color(viewModel.splashIconBackgroundColor)
     ) {
         Icon(
-            painter = painterResource(R.drawable.ic_launcher_foreground),
+            painter = painterResource(viewModel.splashIcon),
             modifier = Modifier.requiredSize(splashIconSize),
             contentDescription = "Logo Icon",
             tint = Color.White
@@ -84,7 +93,7 @@ fun SplashIcon() {
 @Composable
 fun SplashPreview() {
     WallpaperSetterTheme {
-        Splash(0.7f)
+        AnimatedSplashScreen(rememberNavController())
     }
 }
 
@@ -92,6 +101,6 @@ fun SplashPreview() {
 @Composable
 fun SplashDarkPreview() {
     WallpaperSetterTheme {
-        Splash(0.7f)
+        AnimatedSplashScreen(rememberNavController())
     }
 }

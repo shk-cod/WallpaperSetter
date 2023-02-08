@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.shkcod.wallpapersetter.R
@@ -33,7 +34,7 @@ import java.nio.charset.StandardCharsets
 
 @Composable
 fun CategoryImagesScreen(
-    navController: NavController,
+    navController: NavHostController,
     category: String,
     viewModel: CategoryImagesViewModel = viewModel(factory = CategoryImagesViewModelFactory(category))
 ) {

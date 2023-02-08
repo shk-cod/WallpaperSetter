@@ -7,6 +7,9 @@ import com.shkcod.wallpapersetter.R
 
 class HomeScreenViewModel: ViewModel() {
 
+    val errorImage = R.drawable.ic_broken_image
+    val loadingAnimation = R.drawable.loading_animation_large
+
     val categoriesList = listOf(
         CategoryData(R.drawable.animals, R.string.category_animals, Categories.ANIMALS),
         CategoryData(R.drawable.backgrounds, R.string.category_backgrounds, Categories.BACKGROUNDS),

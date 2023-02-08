@@ -3,6 +3,7 @@ package com.shkcod.wallpapersetter.ui.theme
 import androidx.compose.ui.unit.dp
 
 val smallPadding = 8.dp
+val largePadding = 24.dp
 
 val roundedCornerSize = 8.dp
 
