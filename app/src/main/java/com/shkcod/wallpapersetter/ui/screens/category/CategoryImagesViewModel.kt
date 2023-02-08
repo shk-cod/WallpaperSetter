@@ -3,16 +3,20 @@ package com.shkcod.wallpapersetter.ui.screens.category
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.shkcod.wallpapersetter.network.PixabayApi
+import com.shkcod.wallpapersetter.network.PixabayApiHelperImpl
 import com.shkcod.wallpapersetter.network.PixabayImage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 
 class CategoryImagesViewModel(
-    private val category: String
+    val category: String
 ): ViewModel() {
-    private val apiService = PixabayApi.retrofitService
+    private val apiHelper = PixabayApiHelperImpl(PixabayApi.retrofitService)
 
     private val _imagesFlow = MutableSharedFlow<List<PixabayImage>>(
         replay = 1,
@@ -34,17 +38,26 @@ class CategoryImagesViewModel(
 
     private fun fetchImages() {
         viewModelScope.launch {
-            val response = apiService.getImages(category)
+            apiHelper.getImages(category)
+                .flowOn(Dispatchers.IO)
+                .catch { error ->
+                    if (error.message != null) {
+                        _errorFlow.tryEmit(error.message!!)
+                    }
 
-            if (response.isSuccessful) {
-                if (response.body() != null) {
-                    _imagesFlow.tryEmit(response.body()!!.hits)
                 }
-            } else {
-                if (response.errorBody() != null) {
-                    _errorFlow.tryEmit(response.errorBody()!!.toString())
+                .collect { response ->
+                    if (response.isSuccessful) {
+                        if (response.body() != null) {
+                            _imagesFlow.tryEmit(response.body()!!.hits)
+                        }
+
+                    } else {
+                        if (response.errorBody() != null) {
+                            _errorFlow.tryEmit(response.errorBody()!!.toString())
+                        }
+                    }
                 }
-            }
         }
     }
 
