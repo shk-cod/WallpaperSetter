@@ -2,6 +2,7 @@ package com.shkcod.wallpapersetter.ui.screens.category
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.shkcod.wallpapersetter.R
 import com.shkcod.wallpapersetter.network.PixabayApi
 import com.shkcod.wallpapersetter.network.PixabayApiHelper
 import com.shkcod.wallpapersetter.network.PixabayImage
@@ -18,6 +19,10 @@ class CategoryImagesViewModel(
 ): ViewModel() {
 
     private val apiHelper = PixabayApiHelper(PixabayApi.retrofitService)
+
+    val errorImage = R.drawable.ic_broken_image
+    val loadingAnimation = R.drawable.loading_animation
+    val errorImageTint = 0xFFA9A9AC
 
     // SharedFlow that emits image list.
     // Using backing property to prevent mutable object from external modification.

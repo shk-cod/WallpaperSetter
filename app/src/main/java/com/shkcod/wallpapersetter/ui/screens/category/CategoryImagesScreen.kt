@@ -15,6 +15,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -22,7 +23,6 @@ import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
-import com.shkcod.wallpapersetter.R
 import com.shkcod.wallpapersetter.navigation.Screen
 import com.shkcod.wallpapersetter.ui.theme.gridCellSize
 import com.shkcod.wallpapersetter.ui.theme.roundedCornerSize
@@ -83,8 +83,9 @@ fun ImagesGrid(
             )
         } else if (isError) {
             Icon(
-                painter = painterResource(R.drawable.ic_broken_image),
+                painter = painterResource(viewModel.errorImage),
                 contentDescription = "",
+                tint = Color(viewModel.errorImageTint),
                 modifier = Modifier
                     .size(splashIconSize)
                     .align(Alignment.Center)
@@ -100,7 +101,8 @@ fun ImagesGrid(
                 ImageCard(
                     navController,
                     item.webformatURL,
-                    item.largeImageURL
+                    item.largeImageURL,
+                    viewModel
                 )
             }
         }
@@ -116,7 +118,8 @@ fun ImagesGrid(
 fun ImageCard(
     navController: NavController,
     webformatUrl: String,
-    largeImageUrl: String
+    largeImageUrl: String,
+    viewModel: CategoryImagesViewModel
 ) {
     Box(
         modifier = Modifier
@@ -135,8 +138,8 @@ fun ImageCard(
         ) {
             it
                 .load(Uri.parse(webformatUrl))
-                .placeholder(R.drawable.loading_animation_large)
-                .error(R.drawable.ic_broken_image)
+                .placeholder(viewModel.loadingAnimation)
+                .error(viewModel.errorImage)
         }
     }
 }
