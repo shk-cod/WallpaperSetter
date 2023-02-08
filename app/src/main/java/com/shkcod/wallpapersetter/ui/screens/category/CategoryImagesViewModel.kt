@@ -21,7 +21,7 @@ class CategoryImagesViewModel(
     private val apiHelper = PixabayApiHelper(PixabayApi.retrofitService)
 
     val errorImage = R.drawable.ic_broken_image
-    val loadingAnimation = R.drawable.loading_animation
+    val loadingAnimation = R.drawable.loading_animation_large
     val errorImageTint = 0xFFA9A9AC
 
     // SharedFlow that emits image list.
