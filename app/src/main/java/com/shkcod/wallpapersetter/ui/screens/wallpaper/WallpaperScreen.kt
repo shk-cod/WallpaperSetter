@@ -19,7 +19,11 @@ import androidx.compose.ui.unit.dp
 import com.bumptech.glide.Glide
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.target.Target
 import com.bumptech.glide.request.transition.Transition
 import com.shkcod.wallpapersetter.R
 
@@ -29,6 +33,7 @@ fun WallpaperScreen(
     url: String
 ) {
     val context = LocalContext.current
+    val requestListener = GlideRequestListener(context)
 
     Box {
         GlideImage(
@@ -38,6 +43,8 @@ fun WallpaperScreen(
         ) {
             it
                 .load(Uri.parse(url))
+                .listener(requestListener)
+                .timeout(5000)
                 .placeholder(R.drawable.loading_animation)
                 .error(R.drawable.ic_broken_image)
         }
@@ -72,4 +79,32 @@ fun setWallpaper(context: Context, url: String) {
             override fun onLoadCleared(placeholder: Drawable?) {}
 
         })
+}
+
+private class GlideRequestListener(private val context: Context): RequestListener<Drawable> {
+    override fun onLoadFailed(
+        e: GlideException?,
+        model: Any?,
+        target: Target<Drawable>?,
+        isFirstResource: Boolean
+    ): Boolean {
+        if (e != null) {
+            Toast.makeText(
+                context,
+                e.message,
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+        return false
+    }
+
+    override fun onResourceReady(
+        resource: Drawable,
+        model: Any?,
+        target: Target<Drawable>?,
+        dataSource: DataSource?,
+        isFirstResource: Boolean
+    ): Boolean {
+        return false
+    }
 }

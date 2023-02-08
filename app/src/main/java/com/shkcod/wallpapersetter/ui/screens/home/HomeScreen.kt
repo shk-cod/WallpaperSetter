@@ -29,9 +29,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeScreenViewModel = viewModel()
 ) {
-    Surface {
-        CategoriesGrid(navController, viewModel)
-    }
+    CategoriesGrid(navController, viewModel)
 }
 
 @Composable
@@ -77,9 +75,9 @@ fun CategoryCard(
             it.error(R.drawable.ic_broken_image)
         }
 
-
         Text(
             stringResource(text),
+            color = Color.White,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(smallPadding)
