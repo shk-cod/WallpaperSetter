@@ -10,6 +10,7 @@ class HomeScreenViewModel: ViewModel() {
     val errorImage = R.drawable.ic_broken_image
     val loadingAnimation = R.drawable.loading_animation_large
 
+    // Images categories list for displaying on grid
     val categoriesList = listOf(
         CategoryData(R.drawable.animals, R.string.category_animals, Categories.ANIMALS),
         CategoryData(R.drawable.backgrounds, R.string.category_backgrounds, Categories.BACKGROUNDS),
@@ -21,6 +22,9 @@ class HomeScreenViewModel: ViewModel() {
         CategoryData(R.drawable.travel, R.string.category_travel, Categories.TRAVEL)
     )
 
+    /**
+     * Images categories enumeration.
+     */
     enum class Categories(val value: String) {
         ANIMALS("animals"),
         BACKGROUNDS("backgrounds"),
@@ -32,6 +36,12 @@ class HomeScreenViewModel: ViewModel() {
         TRAVEL("travel")
     }
 
+    /**
+     * Represents category item.
+     * @param drawable drawable resource of category image.
+     * @param text text resource of category name.
+     * @param category appropriate category from [Categories].
+     */
     data class CategoryData(
         @DrawableRes val drawable: Int,
         @StringRes val text: Int,

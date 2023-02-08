@@ -31,6 +31,7 @@ fun AnimatedSplashScreen(
     viewModel: AnimatedSplashScreenViewModel = viewModel()
 ) {
     var startAnimation by remember { mutableStateOf(false) }
+
     val progressAnim = animateFloatAsState(
         targetValue = if (startAnimation) 1f else 0f,
         animationSpec = tween(
@@ -38,6 +39,10 @@ fun AnimatedSplashScreen(
         )
     )
 
+    /*
+        Launches animation of progress bar;
+        after 500 ms navigates to home screen.
+     */
     LaunchedEffect(key1= true) {
         startAnimation = true
         delay(500L)
@@ -48,6 +53,9 @@ fun AnimatedSplashScreen(
     Splash(viewModel, progressAnim.value)
 }
 
+/**
+ * Splash screen.
+ */
 @Composable
 fun Splash(
     viewModel: AnimatedSplashScreenViewModel,
@@ -69,6 +77,9 @@ fun Splash(
     }
 }
 
+/**
+ * Icon for splash screen.
+ */
 @Composable
 fun SplashIcon(
     viewModel: AnimatedSplashScreenViewModel

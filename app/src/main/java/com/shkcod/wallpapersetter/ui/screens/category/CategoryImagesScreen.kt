@@ -10,7 +10,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -32,6 +31,9 @@ import com.shkcod.wallpapersetter.ui.theme.splashIconSize
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
+/**
+ * Screen for images for specified category.
+ */
 @Composable
 fun CategoryImagesScreen(
     navController: NavHostController,
@@ -41,6 +43,7 @@ fun CategoryImagesScreen(
     val context = LocalContext.current
     var isError by rememberSaveable { mutableStateOf(false) }
 
+    // Launches concurrent errorFlow collection.
     LaunchedEffect(key1 = true) {
         viewModel.errorFlow.collect { error ->
             Toast.makeText(
@@ -52,21 +55,24 @@ fun CategoryImagesScreen(
         }
     }
 
-    Surface {
-        ImagesGrid(navController, viewModel, isError)
-    }
+    ImagesGrid(navController, viewModel, isError)
 }
 
+/**
+ * Vertical grid of image items.
+ */
 @Composable
 fun ImagesGrid(
     navController: NavController,
     viewModel: CategoryImagesViewModel,
     isError: Boolean
 ) {
-    val list by viewModel.imagesFlow.collectAsState(initial = listOf())
 
-
-
+    // Concurrently collects imagesFlow as Composable State.
+    val list by viewModel.imagesFlow.collectAsState(
+        initial = listOf(),
+        context = rememberCoroutineScope().coroutineContext
+    )
 
     Box(
         modifier = Modifier.fillMaxSize()
@@ -102,6 +108,9 @@ fun ImagesGrid(
 
 }
 
+/**
+ * Image item.
+ */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ImageCard(

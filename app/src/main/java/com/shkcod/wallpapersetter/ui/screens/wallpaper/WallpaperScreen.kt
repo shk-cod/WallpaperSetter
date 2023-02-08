@@ -23,6 +23,9 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.shkcod.wallpapersetter.ui.theme.largePadding
 
+/**
+ * Screen that provides the ability to preview and change wallpaper.
+ */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun WallpaperScreen(
@@ -58,6 +61,11 @@ fun WallpaperScreen(
 
 }
 
+/**
+ * Sets wallpaper from provided URL.
+ * @param context current context.
+ * @param url URL of large-size image.
+ */
 fun setWallpaper(context: Context, url: String) {
     Glide.with(context)
         .asBitmap()

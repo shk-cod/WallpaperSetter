@@ -16,8 +16,11 @@ import kotlinx.coroutines.launch
 class CategoryImagesViewModel(
     val category: String
 ): ViewModel() {
+
     private val apiHelper = PixabayApiHelper(PixabayApi.retrofitService)
 
+    // SharedFlow that emits image list.
+    // Using backing property to prevent mutable object from external modification.
     private val _imagesFlow = MutableSharedFlow<List<PixabayImage>>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_LATEST
@@ -25,6 +28,8 @@ class CategoryImagesViewModel(
     val imagesFlow: SharedFlow<List<PixabayImage>>
         get() = _imagesFlow
 
+    // SharedFlow that emits errors.
+    // Using backing property to prevent mutable object from external modification.
     private val _errorFlow = MutableSharedFlow<String>(
         replay = 1,
         onBufferOverflow = BufferOverflow.DROP_LATEST
@@ -36,7 +41,11 @@ class CategoryImagesViewModel(
         fetchImages()
     }
 
+    /**
+     * Fetches images from server.
+     */
     private fun fetchImages() {
+        // viewModelScope is used to cancel coroutine when ViewModel is cleared.
         viewModelScope.launch {
             apiHelper.getImages(category)
                 .flowOn(Dispatchers.IO)

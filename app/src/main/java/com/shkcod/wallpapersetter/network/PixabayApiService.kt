@@ -20,11 +20,18 @@ private val retrofit = Retrofit.Builder()
     .baseUrl(BASE_URL)
     .build()
 
+/**
+ * Defines Pixabay API request methods.
+ */
 interface PixabayApiService {
     @GET("?key=$API_KEY&orientation=vertical&per_page=200")
     suspend fun getImages(@Query("category") category: String): Response<PixabayImages>
 }
 
+/**
+ * Singleton object declaration,
+ * which provides retrofitService with lazy initialization.
+ */
 object PixabayApi {
     val retrofitService: PixabayApiService by lazy { retrofit.create(PixabayApiService::class.java) }
 }

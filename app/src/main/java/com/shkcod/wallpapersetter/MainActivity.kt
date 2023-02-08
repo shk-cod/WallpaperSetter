@@ -11,7 +11,10 @@ import com.shkcod.wallpapersetter.ui.theme.WallpaperSetterTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Adds Android 12 support for splash screen
         installSplashScreen()
+
         setContent {
             WallpaperSetterTheme {
                 val navController = rememberNavController()

@@ -11,6 +11,9 @@ import com.shkcod.wallpapersetter.ui.screens.home.HomeScreen
 import com.shkcod.wallpapersetter.ui.screens.splash.AnimatedSplashScreen
 import com.shkcod.wallpapersetter.ui.screens.wallpaper.WallpaperScreen
 
+/**
+ * Performs Navigation Graph setup (builds NavGraph with provided screens).
+ */
 @Composable
 fun SetupNavGraph(navController: NavHostController) {
     NavHost(

@@ -2,6 +2,7 @@ package com.shkcod.wallpapersetter.ui.theme
 
 import androidx.compose.ui.unit.dp
 
+//Dimensions for Composable parameters.
 val smallPadding = 8.dp
 val largePadding = 24.dp
 

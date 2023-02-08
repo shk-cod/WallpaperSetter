@@ -26,6 +26,9 @@ import com.shkcod.wallpapersetter.ui.theme.gridCellSize
 import com.shkcod.wallpapersetter.ui.theme.roundedCornerSize
 import com.shkcod.wallpapersetter.ui.theme.smallPadding
 
+/**
+ * Home Screen.
+ */
 @Composable
 fun HomeScreen(
     navController: NavHostController,
@@ -34,6 +37,9 @@ fun HomeScreen(
     CategoriesGrid(navController, viewModel)
 }
 
+/**
+ * Vertical grid of category items.
+ */
 @Composable
 fun CategoriesGrid(
     navController: NavController,
@@ -56,6 +62,9 @@ fun CategoriesGrid(
     }
 }
 
+/**
+ * Category item with image and text.
+ */
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun CategoryCard(
@@ -80,7 +89,6 @@ fun CategoryCard(
                 .error(viewModel.errorImage)
                 .placeholder(viewModel.loadingAnimation)
         }
-
 
         Text(
             stringResource(text),
