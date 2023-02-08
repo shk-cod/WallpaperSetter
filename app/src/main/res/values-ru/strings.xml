@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="category_animals">Животные</string>
+    <string name="category_backgrounds">Фоны</string>
+    <string name="category_buildings">Архитектура</string>
+    <string name="category_food">Еда</string>
+    <string name="category_nature">Природа</string>
+    <string name="category_places">Места</string>
+    <string name="category_sports">Спорт</string>
+    <string name="category_travel">Путешествия</string>
+</resources>
