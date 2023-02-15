@@ -126,7 +126,7 @@ fun ImageCard(
             .height(gridCellSize)
             .clickable
             {
-                val encodedUrl = URLEncoder.encode(largeImageUrl, StandardCharsets.UTF_8.toString())
+                val encodedUrl = URLEncoder.encode(largeImageUrl, StandardCharsets.UTF_8.name())
                 navController.navigate("${Screen.Wallpaper.route}/$encodedUrl")
             },
         contentAlignment = Alignment.Center
